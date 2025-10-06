@@ -8,9 +8,10 @@ import { AccountsController } from './modules/accounts/controllers/accounts.cont
 import { AccountsService } from './modules/accounts/services/accounts.service';
 import { ActivitiesController } from './modules/activities/controllers/activities.controller';
 import { ActivitiesService } from './modules/activities/services/activities.service';
+import { DatabaseModule } from './common/database/database.module';
 
 @Module({
-  imports: [AuthModule],
+  imports: [AuthModule, DatabaseModule],
   controllers: [AppController, LeadsController, AccountsController, ActivitiesController],
   providers: [AppService, LeadsService, AccountsService, ActivitiesService],
 })
