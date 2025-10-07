@@ -4,12 +4,14 @@ import { DatabaseService } from 'src/common/database/database.service';
 import { CreateActivityDto } from '../dto/create-activity.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { UpdateActivityDto } from '../dto/update-activity.dto';
+import { UpdatesGateway } from 'src/common/updates/updates.gateway';
 
 @Injectable()
 export class ActivitiesService {
     constructor(
         private readonly databaseService: DatabaseService,
         private readonly accountsService: AccountsService,
+        private readonly updatesGateway: UpdatesGateway,
     ) { }
 
     async create(
@@ -28,8 +30,15 @@ export class ActivitiesService {
             'INSERT INTO activities (id, account_id, user_id, type, notes, next_follow_up) VALUES (?, ?, ?, ?, ?, ?)',
         );
         stmt.run(activityId, accountId, user.userId, type, notes, next_follow_up);
+        const newActivity = this.findOne(accountId, activityId, user);
 
-        return this.findOne(accountId, activityId, user);
+        this.updatesGateway.broadcastActivityUpdate({
+            event: 'activity_created',
+            data: newActivity,
+        });
+
+
+        return newActivity;
     }
 
     async findAll(accountId: string, user: any) {
@@ -74,7 +83,15 @@ export class ActivitiesService {
             mergedData.next_follow_up,
             activityId,
         );
-        return this.findOne(accountId, activityId, user);
+
+        const updatedActivity = await this.findOne(accountId, activityId, user);
+
+        this.updatesGateway.broadcastActivityUpdate({
+            event: 'activity_updated',
+            data: updatedActivity,
+        });
+
+        return updatedActivity;
     }
 
     async remove(accountId: string, activityId: string, user: any) {

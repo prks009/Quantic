@@ -11,10 +11,12 @@ import { ActivitiesService } from './modules/activities/services/activities.serv
 import { DatabaseModule } from './common/database/database.module';
 import { AccountsModule } from './modules/accounts/accounts.module';
 import { ActivitiesModule } from './modules/activities/activities.module';
+import { UpdatesGateway } from './common/updates/updates.gateway';
+import { UpdatesModule } from './common/updates/updates.module';
 
 @Module({
-  imports: [AuthModule, DatabaseModule, AccountsModule, ActivitiesModule],
+  imports: [AuthModule, DatabaseModule, AccountsModule, ActivitiesModule, UpdatesModule],
   controllers: [AppController, LeadsController, AccountsController, ActivitiesController],
-  providers: [AppService, LeadsService, AccountsService, ActivitiesService],
+  providers: [AppService, LeadsService, AccountsService, ActivitiesService, UpdatesGateway],
 })
 export class AppModule { }
