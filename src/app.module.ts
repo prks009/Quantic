@@ -9,9 +9,11 @@ import { AccountsService } from './modules/accounts/services/accounts.service';
 import { ActivitiesController } from './modules/activities/controllers/activities.controller';
 import { ActivitiesService } from './modules/activities/services/activities.service';
 import { DatabaseModule } from './common/database/database.module';
+import { AccountsModule } from './modules/accounts/accounts.module';
+import { ActivitiesModule } from './modules/activities/activities.module';
 
 @Module({
-  imports: [AuthModule, DatabaseModule],
+  imports: [AuthModule, DatabaseModule, AccountsModule, ActivitiesModule],
   controllers: [AppController, LeadsController, AccountsController, ActivitiesController],
   providers: [AppService, LeadsService, AccountsService, ActivitiesService],
 })
