@@ -4,8 +4,8 @@ import { ActivitiesController } from './controllers/activities.controller';
 import { AccountsModule } from '../accounts/accounts.module';
 
 @Module({
-    imports: [AccountsModule],
-    controllers: [ActivitiesController],
-    providers: [ActivitiesService],
+  imports: [AccountsModule],
+  controllers: [ActivitiesController],
+  providers: [ActivitiesService],
 })
-export class ActivitiesModule { }
+export class ActivitiesModule {}

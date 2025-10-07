@@ -12,7 +12,9 @@ import { Server, Socket } from 'socket.io';
   },
   namespace: 'updates', // Namespace for updates
 })
-export class UpdatesGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class UpdatesGateway
+  implements OnGatewayConnection, OnGatewayDisconnect
+{
   @WebSocketServer()
   server: Server;
 

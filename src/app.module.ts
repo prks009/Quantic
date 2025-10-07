@@ -16,11 +16,27 @@ import { UpdatesModule } from './common/updates/updates.module';
 import rateLimit from 'express-rate-limit';
 
 @Module({
-  imports: [AuthModule, DatabaseModule, AccountsModule, ActivitiesModule, UpdatesModule],
-  controllers: [AppController, LeadsController, AccountsController, ActivitiesController],
-  providers: [AppService, LeadsService, AccountsService, ActivitiesService, UpdatesGateway],
+  imports: [
+    AuthModule,
+    DatabaseModule,
+    AccountsModule,
+    ActivitiesModule,
+    UpdatesModule,
+  ],
+  controllers: [
+    AppController,
+    LeadsController,
+    AccountsController,
+    ActivitiesController,
+  ],
+  providers: [
+    AppService,
+    LeadsService,
+    AccountsService,
+    ActivitiesService,
+    UpdatesGateway,
+  ],
 })
-
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
@@ -34,4 +50,3 @@ export class AppModule implements NestModule {
       .forRoutes('auth'); // auth routes as per doc
   }
 }
-

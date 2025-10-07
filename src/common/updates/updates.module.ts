@@ -3,7 +3,7 @@ import { UpdatesGateway } from './updates.gateway';
 
 @Global()
 @Module({
-    providers: [UpdatesGateway],
-    exports: [UpdatesGateway],
+  providers: [UpdatesGateway],
+  exports: [UpdatesGateway],
 })
-export class UpdatesModule { }
+export class UpdatesModule {}

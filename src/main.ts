@@ -8,13 +8,21 @@ import csurf from 'csurf';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
-  app.use(csurf({ cookie: { httpOnly: true, sameSite: 'strict' } }));
+  app.use(
+    csurf({
+      cookie: {
+        httpOnly: true,
+        sameSite: 'strict',
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+      },
+    }),
+  );
 
   app.use(helmet());
   app.enableCors({
     origin: '*', // can change to specfic  domain
     credentials: true,
-  })
+  });
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(process.env.PORT ?? 3000);
 }
