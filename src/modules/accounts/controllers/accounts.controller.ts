@@ -50,4 +50,10 @@ export class AccountsController {
     remove(@Param('id') id: string, @Req() req: any) {
         return this.accountsService.remove(id, req.user);
     }
+
+    @Get('reports/recent-activity')
+    findWithRecentActivity(@Req() req: any) {
+        return this.accountsService.findWithRecentActivity(req.user);
+    }
+
 }

@@ -101,4 +101,45 @@ export class AccountsService {
 
         return { message: "Deleted" };
     }
+
+
+
+
+    async findWithRecentActivity(user: any) {
+        const db = this.databaseService.getDb();
+        const params: any[] = [];
+
+        let innerQuery = `
+    SELECT
+        a.id as account_id,
+        a.name as account_name,
+        act.type,
+        act.notes,
+        act.created_at,
+        ROW_NUMBER() OVER(PARTITION BY a.id ORDER BY act.created_at DESC) as rn
+    FROM
+        accounts a
+    JOIN
+        activities act ON a.id = act.account_id
+  `;
+
+        if (user.role === 'rep') {
+            innerQuery += ` WHERE a.owner_id = ?`;
+            params.push(user.userId);
+        }
+
+        const finalQuery = `
+    SELECT
+      account_id,
+      account_name,
+      type,
+      notes,
+      created_at
+    FROM (${innerQuery})
+    WHERE rn = 1;
+  `;
+
+        const stmt = db.prepare(finalQuery);
+        return stmt.all(params);
+    }
 }
